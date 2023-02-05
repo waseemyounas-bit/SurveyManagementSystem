@@ -1,0 +1,121 @@
+﻿@model Models.Survey
+@{
+    ViewData["Title"] = "Create new service";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Create new Survey</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <h3 class="card-title">Create Survey</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form action="@Url.Action("CreateSurvey")" method="post">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="">Company</label>
+                                    <select class="form-control" name="CompanyId" id="CompanyId" onchange="LoadCompanyServices()" asp-for=CompanyId asp-items="@ViewData["companies"] as List<SelectListItem>">
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.CompanyId, string.Empty, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="">Service</label>
+                                    <select class="form-control select2-with-search" name="ServiceId" id="ServiceId" asp-for=ServiceId>
+                                        <option label="Choose one" value="@Guid.Empty">
+                                            Choose one
+                                        </option>
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.ServiceId, string.Empty, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="exampleInputEmail1">Survey Name</label>
+                                    <input type="text" name="Title" class="form-control" value="@Model.Title">
+                                    @Html.ValidationMessageFor(model => model.Title, string.Empty, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="exampleInputEmail1">Description</label>
+                                    <textarea class="form-control" name="Description">@Model.Description</textarea>
+                                    @Html.ValidationMessageFor(model => model.Description, string.Empty, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                            <button asp-action="GetAllSurveys" class="btn btn-warning btn-sm">Back to list</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        LoadCompanyServices();
+    });
+    function LoadCompanyServices() {
+        if ($("#CompanyId").val() == '') {
+            swal("Error","Please select company first.");
+            return;
+        }
+        var selected = { id: '', text: '' };
+        $.ajax({
+            type: "POST",
+            url: "/Home/LoadCompanyServices",
+            data: { CompanyId: $("#CompanyId").val() },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var services_dd = $('#ServiceId');
+                $(services_dd).empty();
+                //$(services_dd).append($(`<option label="Choose one">Please select a service</option>`));
+                for (var key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        if (data[key].selected) {
+                            selected.id = data[key].value;
+                            selected.text = data[key].text;
+                        }
+                        $(services_dd).append($(`<option value="${data[key].value}">${data[key].text}</option>`));
+                    }
+                }
+                $(services_dd).val(selected.id).trigger('change.select2');
+                console.log(selected);
+            },
+            error: function () {
+                swal('Error','Error while loading services.');
+            }
+        });
+    }
+</script>

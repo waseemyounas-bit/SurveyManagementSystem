@@ -1,0 +1,157 @@
+﻿@model List<Models.Question>
+@{
+    ViewData["Title"] = "All Managers";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>@Model.FirstOrDefault()?.Survey?.Title</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="javascript:void()" class="btn btn-info">Please fill all fields carefully.</a></li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Company: <small>@Model.FirstOrDefault()?.CompanyName</small> Service: <small>@Model.FirstOrDefault()?.ServiceName</small></h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <form action="SaveAnswers" method="post">
+                            @if (Model.Count > 0)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <label cklass="">@item.Text</label>
+                                    <input name="QuestionId" type="hidden" value="@item.Id" />
+                                    <div class="row">
+                                        @if (item.QuestionType?.Type.ToString()?.ToLower() == "open questions with multiple choice")
+                                        {
+                                            <div class="col-3">
+                                                <input type="checkbox" name="Answer" value="@item.OPA-@item.Id"> @item.OPA
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="checkbox" name="Answer" value="@item.OPB-@item.Id"> @item.OPB
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="checkbox" name="Answer" value="@item.OPC-@item.Id"> @item.OPC
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="checkbox" name="Answer" value="@item.OPD-@item.Id"> @item.OPD
+                                            </div>
+                                        }
+                                        <div class="col-12">
+                                            <p><b>Answers:</b> @item.Answer</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        @if (item.QuestionType?.Type.ToString()?.ToLower() == "open questions with single selection")
+                                        {
+                                            <div class="col-3">
+                                                <input type="radio" name="Answer" value="@item.OPA"> @item.OPA
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="radio" name="Answer" value="@item.OPB"> @item.OPB
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="radio" name="Answer" value="@item.OPC"> @item.OPC
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="radio" name="Answer" value="@item.OPD"> @item.OPD
+                                            </div>
+                                        }
+                                        @if (item.QuestionType?.Type.ToString()?.ToLower() == "questions with numerical scales")
+                                        {
+                                            if (item.Limit == 1)
+                                            {
+                                                <div class="col-12">
+                                                    <select id="example-square" name="Answer" autocomplete="on">
+                                                        <option value=""></option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                </div>
+                                            }
+                                            if (item.Limit == 2)
+                                            {
+                                                <div class="col-12">
+                                                    <select id="example-square" name="Answer" autocomplete="on">
+                                                        <option value=""></option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                    </select>
+                                                </div>
+                                            }
+                                            if (item.Limit == 3)
+                                            {
+                                                <div class="col-12">
+                                                    <select id="example-square" name="Answer" autocomplete="on">
+                                                        <option value=""></option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                    </select>
+                                                </div>
+                                            }
+                                        }
+                                        @if (item.QuestionType?.Type.ToString()?.ToLower() == "open questions")
+                                        {
+                                            <div class="col-12">
+                                                <input class="form-control" name="Answer">
+                                            </div>
+
+                                        }
+                                        @if (item.QuestionType?.Type.ToString()?.ToLower() == "title or paragraph")
+                                        {
+                                            <div class="col-12">
+                                                <textarea class="form-control" name="Answer"></textarea>
+                                            </div>
+                                        }
+
+                                    </div>
+                                }
+                            }
+                            <br />
+                            <div class="row">
+                                <div class="col-12">
+                                    <input type="submit" class="btn btn-warning" value="Submit">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

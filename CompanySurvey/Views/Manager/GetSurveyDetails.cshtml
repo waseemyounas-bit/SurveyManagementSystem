@@ -1,0 +1,291 @@
+﻿@model List<Models.Question>
+@{
+    ViewData["Title"] = "All Managers";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>@Model.FirstOrDefault()?.Survey?.Title</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="javascript:void()" class="btn btn-info">Please fill all fields carefully.</a></li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Company: <small>@Model.FirstOrDefault()?.CompanyName</small> Service: <small>@Model.FirstOrDefault()?.ServiceName</small></h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <form action="SaveAnswers" method="post">
+                            <input type="hidden" name="SurveyId" value="@Model.FirstOrDefault()?.SurveyId" />
+                            @if (Model.Count > 0)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <label cklass="">@item.Text</label>
+                                    <input name="QuestionId" type="hidden" value="@item.Id" />
+                                    @if (item.QuestionType?.Type.ToString()?.ToLower() == "open questions with multiple choice")
+                                    {
+                                        <div class="row" id="@(item.Id)" data-type="checkbox">
+                                            <div class="col-3">
+                                                <input type="checkbox" name="Answer" onchange="GetConditions('@item.Id')" value="@item.OPA-@item.Id"> @item.OPA
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="checkbox" name="Answer" onchange="GetConditions('@item.Id')" value="@item.OPB-@item.Id"> @item.OPB
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="checkbox" name="Answer" onchange="GetConditions('@item.Id')" value="@item.OPC-@item.Id"> @item.OPC
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="checkbox" name="Answer" onchange="GetConditions('@item.Id')" value="@item.OPD-@item.Id"> @item.OPD
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (item.QuestionType?.Type.ToString()?.ToLower() == "open questions with single selection")
+                                    {
+                                        <div class="row" id="@(item.Id)" data-type="radio">
+                                            <div class="col-3">
+                                                <input type="radio" name="Answer" onchange="GetConditions('@item.Id')" value="@item.OPA"> @item.OPA
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="radio" name="Answer" onchange="GetConditions('@item.Id')" value="@item.OPB"> @item.OPB
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="radio" name="Answer" onchange="GetConditions('@item.Id')" value="@item.OPC"> @item.OPC
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="radio" name="Answer" onchange="GetConditions('@item.Id')" value="@item.OPD"> @item.OPD
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (item.QuestionType?.Type.ToString()?.ToLower() == "questions with numerical scales")
+                                    {
+                                        <div class="row" id="@(item.Id)" data-type="select">
+                                            @if (item.Limit == 1)
+                                            {
+                                                <div class="col-12">
+                                                    <select class="example-square" onchange="GetConditions('@item.Id')" name="Answer" autocomplete="on">
+                                                        <option value=""></option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                </div>
+                                            }
+                                            @if (item.Limit == 2)
+                                            {
+                                                <div class="col-12">
+                                                    <select class="example-square" onchange="GetConditions('@item.Id')" name="Answer" autocomplete="on">
+                                                        <option value=""></option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                    </select>
+                                                </div>
+                                            }
+                                            @if (item.Limit == 3)
+                                            {
+                                                <div class="col-12">
+                                                    <select class="example-square" onchange="GetConditions('@item.Id')" name="Answer" autocomplete="on">
+                                                        <option value=""></option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                    </select>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                    @if (item.QuestionType?.Type.ToString()?.ToLower() == "open questions")
+                                    {
+                                        <div class="row" id="@(item.Id)" data-type="text">
+                                            <div class="col-12">
+                                                <input type="text" class="form-control" onchange="GetConditions('@item.Id')" name="Answer">
+                                            </div>
+
+                                        </div>
+                                    }
+                                    @if (item.QuestionType?.Type.ToString()?.ToLower() == "title or paragraph")
+                                    {
+                                        <div class="row" id="@(item.Id)" data-type="textarea">
+                                            <div class="col-12">
+                                                <textarea class="form-control" onchange="GetConditions('@item.Id')" name="Answer"></textarea>
+                                            </div>
+                                        </div>
+                                    }
+
+                                }
+                            }
+                            <br />
+                            <div class="row">
+                                <div class="col-12">
+                                    <input type="submit" class="btn btn-warning" value="Submit">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+
+    function GetConditions(Id) {
+        debugger
+        var type = $("#" + Id).data('type');
+        //alert(type);
+        //checkboxes.on("change", function () {
+
+        //    console.log($(this).val() + " --> " + $(this).prop("checked"));
+
+        //});
+        var Value = '';
+        if (type == "checkbox") {
+            var checkedValues = $("#" + Id + " input:checkbox:checked").map(function () {
+                return $(this).val().replace("-" + Id, '');
+            }).get();
+            Value=checkedValues;
+        }
+        if (type == "radio") {
+            Value = $("#" + Id + " input:checked").val();
+        }
+        if (type == "select") {
+            event.preventDefault();
+            Value = $('#' + Id + ' .br-current').data("rating-value");
+        }
+        if (type == "text") {
+            Value = $("#" + Id + " input").val();
+        }
+        if (type == "textarea") {
+            Value = $("#" + Id + " textarea").val();
+        }
+        if (Id == '') {
+            swal("Error", "Please select a question first.");
+            return;
+        }
+        $.getJSON('/Home/GetConditions', { QuestionId: Id }, function (data) {
+            data = JSON.parse(data);
+            debugger
+            $.each(data, function (index) {
+                var condition=data[index].Do;
+                if (data[index].State == "1") {
+                    var temp = data[index].QuestionIds.split(', ');
+                    if (Value.indexOf(data[index].Value) != -1) {
+                        if(condition=="2"){
+                            for (a in temp) {
+                                $("#" + temp).hide(); // Explicitly include base as per Álvaro's comment
+                            }
+                        }
+                        else{
+                            for (a in temp) {
+                                $("#"+temp).show(); // Explicitly include base as per Álvaro's comment
+                            }
+                        }
+                    }
+                    else{
+                        for (a in temp) {
+                            $("#" + temp).show(); // Explicitly include base as per Álvaro's comment
+                        }
+                    }
+                }
+                if (data[index].State == "2") {
+                    var temp = data[index].QuestionIds.split(', ');
+                    if (Value.indexOf(data[index].Value) == -1) {
+                        if (condition == "2") {
+                            for (a in temp) {
+                                $("#" + temp).hide(); // Explicitly include base as per Álvaro's comment
+                            }
+                        }
+                        else {
+                            for (a in temp) {
+                                $("#" + temp).show(); // Explicitly include base as per Álvaro's comment
+                            }
+                        }
+                    }
+                    else {
+                        for (a in temp) {
+                            $("#" + temp).show(); // Explicitly include base as per Álvaro's comment
+                        }
+                    }
+                }
+                if (data[index].State == "3") {
+                    var temp = data[index].QuestionIds.split(', ');
+                    if (Value == '') {
+                        if (condition == "2") {
+                            for (a in temp) {
+                                $("#" + temp).hide(); // Explicitly include base as per Álvaro's comment
+                            }
+                        }
+                        else {
+                            for (a in temp) {
+                                $("#" + temp).show(); // Explicitly include base as per Álvaro's comment
+                            }
+                        }
+                    }
+                    else {
+                        for (a in temp) {
+                            $("#" + temp).show(); // Explicitly include base as per Álvaro's comment
+                        }
+                    }
+                }
+                if (data[index].State == "4") {
+                    var temp = data[index].QuestionIds.split(', ');
+                    if (Value != '') {
+                        if (condition == "2") {
+                            for (a in temp) {
+                                $("#" + temp).hide(); // Explicitly include base as per Álvaro's comment
+                            }
+                        }
+                        else {
+                            for (a in temp) {
+                                $("#" + temp).show(); // Explicitly include base as per Álvaro's comment
+                            }
+                        }
+                    }
+                    else {
+                        for (a in temp) {
+                            $("#" + temp).show(); // Explicitly include base as per Álvaro's comment
+                        }
+                    }
+                }
+            });
+        });
+    }
+        //new SelectListItem{ Text = "Is Equal", Value = "1" },
+        //new SelectListItem{ Text = "Is Not Equal", Value = "2" },
+        //new SelectListItem{ Text = "Is Empty", Value = "3" },
+        //new SelectListItem{ Text = "Is Fill", Value = "4" }
+
+</script>
+
+

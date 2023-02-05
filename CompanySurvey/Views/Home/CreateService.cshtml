@@ -1,0 +1,71 @@
+﻿@model Models.Service
+@{
+    ViewData["Title"] = "Create new service";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Create new service</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <h3 class="card-title">Create Service</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form action="@Url.Action("CreateService")" method="post">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="">Company</label>
+                                    <select class="form-control" name="CompanyId" asp-for=CompanyId asp-items="@ViewData["companies"] as List<SelectListItem>">
+                                            </select>
+                                    @Html.ValidationMessageFor(model => model.CompanyId, string.Empty, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="exampleInputEmail1">Service Name</label>
+                                    <input type="text" name="Name" class="form-control" value="@Model.Name">
+                                    @Html.ValidationMessageFor(model => model.Name, string.Empty, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                           <div class="row">
+                                <div class="col-12">
+                                    <label for="exampleInputEmail1">Description</label>
+                                    <textarea class="form-control" name="Description">@Model.Description</textarea>
+                                    @Html.ValidationMessageFor(model => model.Description, string.Empty, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button asp-action="GetAllServices" class="btn btn-warning">Back to list</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+
+            </div>
+        </div>
+    </div>
+</section>

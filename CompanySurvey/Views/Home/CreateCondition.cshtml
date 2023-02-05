@@ -1,0 +1,159 @@
+﻿@model Models.Condition
+@{
+    ViewData["Title"] = "Create new user";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Create new condition</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <form action="@Url.Action("CreateCondition")" method="post">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-warning">
+                        <div class="card-header">
+                            <h3 class="card-title">State</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+
+                        <div class="card-body">
+                            <input type="hidden" name="SurveyId" value="@Model.SurveyId">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="exampleInputEmail1">Question</label>
+                                    <select class="form-control" name="QuestionId" id="QuestionId" onchange="GetQuestionDetails()" asp-for=QuestionId asp-items="@Model.Questions as List<SelectListItem>">
+                                        <option value="" disabled selected>Please select a question</option>
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.QuestionId, string.Empty, new { @class = "text-danger" })
+                                </div>
+                                <div class="col-6">
+                                    <label for="exampleInputEmail1">State</label>
+                                    <select class="form-control" name="State" id="State" onchange="LoadCompanyServices()" asp-for=State asp-items="@Model.States as List<SelectListItem>">
+                                        <option value="" disabled selected>Please select a state</option>
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.State, string.Empty, new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-12">
+                                    <div id="valueField">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+                <div class="col-12">
+                    <!-- general form elements -->
+                    <div class="card card-warning">
+                        <div class="card-header">
+                            <h3 class="card-title">Do</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="exampleInputEmail1">Do</label>
+                                    <select class="form-control" name="Do" id="Do" onchange="LoadCompanyServices()" asp-for=QuestionId asp-items="@Model.DoList as List<SelectListItem>">
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.Do, string.Empty, new { @class = "text-danger" })
+                                </div>
+                                <div class="col-6">
+                                    <label for="exampleInputEmail1">Field(s)</label>
+                                    <select class="select2" name="QuestionIds" multiple="multiple" data-placeholder="Select question(s)" style="width: 100%;" onchange="LoadCompanyServices()" asp-for=QuestionIds asp-items="@Model.Questions as List<SelectListItem>">
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.QuestionIds, string.Empty, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button asp-action="GetAllManagers" class="btn btn-warning">Back to list</button>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+
+    function GetQuestionDetails() {
+        var Id = $("#QuestionId").val();
+        if (Id == '') {
+            swal("Error", "Please select a question first.");
+            return;
+        }
+        var selected = { id: '', text: '' };
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/Home/GetQuestionDetails",
+        //    data: { QuestionId: Id },
+        //    dataType: "json",
+        //    success: function (data) {
+        //        console.log("Type: ",data.Type);
+        //        //var services_dd = $('#valueField');
+        //        //$(services_dd).empty();
+        //        ////$(services_dd).append($(`<option label="Choose one">Please select a service</option>`));
+        //        //for (var key in data) {
+        //        //    if (data.hasOwnProperty(key)) {
+        //        //        if (data[key].selected) {
+        //        //            selected.id = data[key].value;
+        //        //            selected.text = data[key].text;
+        //        //        }
+        //        //        $(services_dd).append($(`<option value="${data[key].value}">${data[key].text}</option>`));
+        //        //    }
+        //        //}
+        //        //$(services_dd).val(selected.id).trigger('change.select2');
+        //        //console.log(selected);
+        //    },
+        //    error: function () {
+        //        swal('Error', 'Error while loading services.');
+        //    }
+        //});
+        $.getJSON('/Home/GetQuestionDetails',{QuestionId:Id}, function (data) {
+            data = JSON.parse(data);
+            debugger
+            var text=data.Type;
+            var tag = '<label>Value</label>';
+            if (text == "open questions with multiple choice" || text == "open questions with single selection") {
+                tag=tag+'<select name="Value" class="form-control"><option label="Choose one">Please select a service</option>';
+                tag = tag + '<option value="' + data.OPA + '">' + data.OPA + '</option>';
+                tag = tag + '<option value="' + data.OPB + '">' + data.OPB + '</option>';
+                tag = tag + '<option value="' + data.OPC + '">' + data.OPC + '</option>';
+                tag = tag + '<option value="' + data.OPD + '">' + data.OPD + '</option></select>';
+            } if (text == "open questions" || text == "questions with numerical scales" || text == "title or paragraph") {
+                tag=tag+'<input name="Value" class="form-control">';
+            }
+            $("#valueField").html(tag);
+            //var items = '<table><tr><th>Name</th><th>Address</th></tr>';
+            //$.each(data, function (i, country) {
+            //    items += "<tr><td>" + country.ContactName + "</td><td>" + country.Address + "</td></tr>";
+            //});
+            //items += "</table>";
+            //$('#rData').html(items);
+        });
+    }
+</script>

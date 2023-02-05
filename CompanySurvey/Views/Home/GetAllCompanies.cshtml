@@ -1,0 +1,139 @@
+﻿@model List<Models.Company>
+@{
+    ViewData["Title"] = "All Companies";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Manage Companies</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-action="CreateCompany" class="btn btn-info">Create</a></li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">All companies list</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="managers" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Created On</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Count() > 0)
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Title</td>
+                                            <td>
+                                                @item.Email
+                                            </td>
+                                            <td>@item.Phone</td>
+                                            <td>@item.Address</td>
+                                            <td>@item.CreatedOn.ToShortDateString()</td>
+                                            <td>
+                                                <a href="@Url.Action("CreateCompany","Home",new{Id=item.Id})" class="btn btn-info"><i class="fa fa-edit"></i> </a>
+                                                <a href="javascript:void()" onclick="DeleteCompany('@item.Id')" class="btn btn-danger"><i class="fa fa-trash"></i> </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>No result found.</td>
+                                    </tr>
+                                }
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+
+    function DeleteCompany(Id) {
+        debugger
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this file!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/RemoveCompany",
+                        data: { Id: Id },
+                        dataType: "json",
+                        success: function (data) {
+
+
+                            swal("Deleted!", "Your file has been deleted.", "success");
+                            setTimeout(function () {
+                                location.reload();
+                            }, 3000);
+                        },
+                        error: function () {
+                            swal("Error", "Something went wrong.", "error");
+                        }
+                    });
+
+                } else {
+                    swal("Cancelled", "Your file is safe :)", "error");
+                }
+            });
+    }
+
+    $(document).ready(function () {
+        $('#filesTable').DataTable();
+    });
+</script>
+<script>
+    $(function () {
+        $("#managers").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+</script>

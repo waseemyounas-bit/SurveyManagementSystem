@@ -1,0 +1,146 @@
+﻿@model Models.Question
+@{
+    ViewData["Title"] = "Create new service";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Create new Question (<small>@Model.Survey?.Title</small>)</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <h3 class="card-title">Create Question </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form action="@Url.Action("CreateQuestion")" method="post">
+                        <div class="card-body">
+                            <input type="hidden" name="SurveyId" value="@Model.SurveyId" />
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="exampleInputEmail1">Question</label>
+                                    <input type="text" name="Text" class="form-control" value="@Model.Text">
+                                    @Html.ValidationMessageFor(model => model.Text, string.Empty, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="">Question Type</label>
+                                    <select class="form-control" name="QuestionTypeId" onchange="ChangeQuestionType()" id="type" asp-for=QuestionTypeId asp-items="@ViewData["types"] as List<SelectListItem>">
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.QuestionTypeId, string.Empty, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            @*<div class="row">
+                                <div class="col-6">
+                                    <label>Is Mandatory?</label>
+                                    <div class="form-group clearfix">
+                                        <div class="icheck-primary d-inline">
+                                            <input type="radio" id="radioPrimary1" asp-for=IsMandatory name="IsMandatory" value="@Model.IsMandatory">
+                                            <label for="radioPrimary1">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="icheck-primary d-inline">
+                                            <input type="radio" id="radioPrimary2" asp-for=IsMandatory name="IsMandatory" value="@Model.IsMandatory">
+                                            <label for="radioPrimary2">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.IsMandatory, string.Empty, new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+                            <div id="options">
+                                <br />
+                            <p class="text-bold">Add Options for <span id="optiontype"></span></p>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label class="">Option A</label>
+                                        <input type="text" name="OPA" class="form-control" value="@Model.OPA">
+                                        @Html.ValidationMessageFor(model => model.OPA, string.Empty, new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="">Option B</label>
+                                        <input type="text" name="OPB" class="form-control" value="@Model.OPB">
+                                        @Html.ValidationMessageFor(model => model.OPB, string.Empty, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label class="">Option C</label>
+                                        <input type="text" name="OPC" class="form-control" value="@Model.OPC">
+                                        @Html.ValidationMessageFor(model => model.OPC, string.Empty, new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="">Option D</label>
+                                        <input type="text" name="OPD" class="form-control" value="@Model.OPD">
+                                        @Html.ValidationMessageFor(model => model.OPD, string.Empty, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="row" id="scale">
+                                <div class="col-12">
+                                    <label class="">Select Scal Limit</label>
+                                    <select class="form-control" name="Limit" asp-for=QuestionTypeId asp-items="@Model.scales">
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.Limit, string.Empty, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button asp-action="GetAllQuestions" asp-route-SurveyId="@Model.SurveyId" class="btn btn-warning">Back to list</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#options").hide();
+        $("#scale").hide();
+        ChangeQuestionType();
+    });
+    function ChangeQuestionType() {
+        var text = $('#type :selected').text();
+        if (text.toLowerCase() == "open questions with multiple choice") {
+            $("#optiontype").text("Checkboxes");
+            $("#options").show();
+            $("#scale").hide();
+        } if (text.toLowerCase() == "open questions with single selection") {
+            $("#optiontype").text("Radio Buttons");
+            $("#options").show();
+            $("#scale").hide();
+        } if (text.toLowerCase() == "questions with numerical scales") {
+            $("#options").hide();
+            $("#scale").show();
+        } if (text.toLowerCase() == "Open questions".toLowerCase() || text.toLowerCase() == "title or paragraph".toLowerCase()) {
+            $("#options").hide();
+            $("#scale").hide();
+        }
+    }
+</script>

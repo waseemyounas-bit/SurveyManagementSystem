@@ -1,0 +1,129 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = CompanySurvey
+build_property.RootNamespace = CompanySurvey
+build_property.ProjectDir = F:\FivProjects\SurveyManagementSystem\SurveyManagementSystem\CompanySurvey\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = true
+build_property.MSBuildProjectDirectory = F:\FivProjects\SurveyManagementSystem\SurveyManagementSystem\CompanySurvey
+build_property._RazorSourceGeneratorDebug = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/CreateCompany.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDcmVhdGVDb21wYW55LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/CreateCondition.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDcmVhdGVDb25kaXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/CreateManager.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDcmVhdGVNYW5hZ2VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/CreateQuestion.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDcmVhdGVRdWVzdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/CreateQuestionType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDcmVhdGVRdWVzdGlvblR5cGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/CreateService.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDcmVhdGVTZXJ2aWNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/CreateSurvey.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDcmVhdGVTdXJ2ZXkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/GetAllCompanies.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxHZXRBbGxDb21wYW5pZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/GetAllManagers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxHZXRBbGxNYW5hZ2Vycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/GetAllQuestions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxHZXRBbGxRdWVzdGlvbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/GetAllQuestionTypes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxHZXRBbGxRdWVzdGlvblR5cGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/GetAllServices.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxHZXRBbGxTZXJ2aWNlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/GetAllSurveys.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxHZXRBbGxTdXJ2ZXlzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/GetAnswers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxHZXRBbnN3ZXJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Home/ViewAnswers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxWaWV3QW5zd2Vycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Manager/CreateCustomer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlclxDcmVhdGVDdXN0b21lci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Manager/GetAllCustomers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlclxHZXRBbGxDdXN0b21lcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Manager/GetAllSurveys.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlclxHZXRBbGxTdXJ2ZXlzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Manager/GetSurveyDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlclxHZXRTdXJ2ZXlEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Manager/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[F:/FivProjects/SurveyManagementSystem/SurveyManagementSystem/CompanySurvey/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-gdqfhgspfm

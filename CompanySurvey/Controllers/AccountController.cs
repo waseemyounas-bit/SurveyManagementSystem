@@ -33,6 +33,7 @@ namespace CompanySurvey.Controllers
                 else
                 {
                     HttpContext.Session.SetString("UserId",user.Id.ToString());
+                    HttpContext.Session.SetString("UserName",user.FirstName+" "+user.LastName);
                     HttpContext.Session.SetInt32("RoleId",user.RoleId);
                     if(user.RoleId==1)
                        return RedirectToAction("Index","Home");

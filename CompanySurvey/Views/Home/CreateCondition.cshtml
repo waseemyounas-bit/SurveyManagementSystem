@@ -87,7 +87,7 @@
 
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <button asp-action="GetAllManagers" class="btn btn-warning">Back to list</button>
+                            <a href="@Url.Action("GetAllConditions",new{SurveyId=Model.SurveyId})" class="btn btn-warning">Back to list</a>
                         </div>
                     </div>
                     <!-- /.card -->

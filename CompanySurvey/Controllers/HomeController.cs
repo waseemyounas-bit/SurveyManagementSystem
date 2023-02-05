@@ -396,9 +396,28 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult GetAllConditions(Guid SurveyId)
         {
-            var questions = uOW.QuestionRepository().GetAll().Where(SurveyId==SurveyId);
-            var conditions = uOW.ConditionRepository().GetAll().Where(SurveyId==SurveyId);
-            return View(conditions.ToList());
+            var questions = uOW.QuestionRepository().GetAll().Where(x=>x.SurveyId==SurveyId).ToList();
+            var conditions = uOW.ConditionRepository().GetAll().Where(x=>x.SurveyId==SurveyId).ToList();
+           List<ConditionsVM> conditionsVMs= new List<ConditionsVM>();
+            if (conditions.Count>0)
+            {
+                foreach (var item in conditions)
+                {
+                    List<string> selectedQuestions=questions.Where(x=>item.QuestionIds.ToLower().Contains(x.Id.ToString())).Select(x=>x.Text).ToList();
+                    ConditionsVM conditionsVM = new ConditionsVM() {
+                        Do = item.Do,
+                        State=item.State.ToString(),
+                        QuestionText = questions.Where(x => x.Id == item.QuestionId).FirstOrDefault().Text,
+                        QuestionId = item.QuestionId,
+                        QuestionIds = item.QuestionIds,
+                        Value=item.Value,
+                        ShowHideQuestionsText = string.Join(",", selectedQuestions),
+                        
+                    };
+                conditionsVMs.Add(conditionsVM);
+                }
+            }
+            return View(conditionsVMs);
         }
         public IActionResult RemoveCondition(Guid Id)
         {

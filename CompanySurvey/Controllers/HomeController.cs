@@ -21,6 +21,14 @@ namespace CompanySurvey.Controllers
 
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetInt32("RoleId")==null)
+            {
+                return RedirectToAction("Login","Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId")==2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             List<string> counts = new List<string>();
             counts.Add(uOW.CompanyRepository().GetAll().Count().ToString());
             counts.Add(uOW.ServiceRepository().GetAll().Count().ToString());
@@ -31,6 +39,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult CreateManager(Guid Id)
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             var user = new User();
             if (Id != Guid.Empty)
             {
@@ -64,6 +80,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult GetAllManagers()
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             List<User> users = uOW.UserRepository().GetAll().Where(x => x.RoleId == 2).ToList();
             return View(users);
         }
@@ -83,6 +107,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult CreateCompany(Guid Id)
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             Company company = new Company();
             if (Id != Guid.Empty)
             {
@@ -110,6 +142,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult GetAllCompanies()
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             List<Company> companies = uOW.CompanyRepository().GetAll().ToList();
             return View(companies);
         }
@@ -129,6 +169,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult CreateService(Guid Id)
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             Service service = new Service();
             if (Id != Guid.Empty)
             {
@@ -158,6 +206,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult GetAllServices()
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             List<Service> services = uOW.ServiceRepository().GetAll().ToList();
             return View(services);
         }
@@ -178,6 +234,14 @@ namespace CompanySurvey.Controllers
         [HttpPost]
         public IActionResult LoadCompanyServices(Guid CompanyId)
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             var SelectItemlist = new List<SelectListItem>();
             if (CompanyId != Guid.Empty)
             {
@@ -187,6 +251,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult CreateSurvey(Guid Id)
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             Survey survey = new Survey();
             if (Id != Guid.Empty)
             {
@@ -216,6 +288,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult GetAllSurveys()
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             var surveys = uOW.SurveyRepository().GetAll();
             ViewData["companies"] = uOW.CompanyRepository().GetAll().Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString() }).ToList();
             return View(surveys.ToList());
@@ -247,6 +327,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult CreateQuestionType(Guid Id)
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             QuestionType questionType = new QuestionType();
             if (Id != Guid.Empty)
             {
@@ -277,6 +365,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult GetAllQuestionTypes()
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             var types = uOW.QuestionTypeRepository().GetAll();
             return View(types.ToList());
         }
@@ -296,6 +392,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult CreateQuestion(Guid Id, Guid SurveyId)
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             Question question = new Question();
             if (Id != Guid.Empty)
             {
@@ -334,6 +438,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult GetAllQuestions(Guid SurveyId)
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             var types = uOW.QuestionRepository().GetAll().Where(x=>x.SurveyId==SurveyId);
             //if (SurveyId != Guid.Empty)
             //{
@@ -357,6 +469,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult CreateCondition(Guid Id, Guid SurveyId)
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             Condition condition = new Condition();
             if (Id != Guid.Empty)
             {
@@ -396,6 +516,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult GetAllConditions(Guid SurveyId)
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 2)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             var questions = uOW.QuestionRepository().GetAll().Where(x=>x.SurveyId==SurveyId).ToList();
             var conditions = uOW.ConditionRepository().GetAll().Where(x=>x.SurveyId==SurveyId).ToList();
            List<ConditionsVM> conditionsVMs= new List<ConditionsVM>();

@@ -15,6 +15,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 1)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             List<string> counts = new List<string>();
             counts.Add(uOW.CompanyRepository().GetAll().Count().ToString());
             counts.Add(uOW.ServiceRepository().GetAll().Count().ToString());
@@ -25,6 +33,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult CreateCustomer(Guid Id)
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 1)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             Customer customer = new Customer();
             if (Id != Guid.Empty)
             {
@@ -60,6 +76,14 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult GetAllCustomers()
         {
+            if (HttpContext.Session.GetInt32("RoleId") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (HttpContext.Session.GetInt32("RoleId") == 1)
+            {
+                return Unauthorized("You are not authorized to access this page.");
+            }
             List<Customer> customers = uOW.CustomerRepository().GetAll().ToList();
             return View(customers);
         }

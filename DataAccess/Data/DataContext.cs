@@ -22,7 +22,7 @@ namespace DataAccess.Data
                     Id = new Guid("5fb7097c-335c-4d07-b4fd-000004e2d28c"),
                     FirstName = "Super",
                     LastName = "Admin",
-                    Email = "admin@hrawards.com",
+                    Email = "admin@surveysystem.com",
                     Password = "12345678",
                     ConfirmPassword = "12345678",
                     Phone="123456789",

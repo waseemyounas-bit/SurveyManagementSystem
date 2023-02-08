@@ -337,8 +337,8 @@ namespace DataAccess.Migrations
                         {
                             Id = new Guid("5fb7097c-335c-4d07-b4fd-000004e2d28c"),
                             ConfirmPassword = "12345678",
-                            CreatedOn = new DateTime(2023, 2, 5, 10, 17, 15, 311, DateTimeKind.Local).AddTicks(1858),
-                            Email = "admin@hrawards.com",
+                            CreatedOn = new DateTime(2023, 2, 7, 7, 29, 16, 128, DateTimeKind.Local).AddTicks(5021),
+                            Email = "admin@surveysystem.com",
                             FirstName = "Super",
                             IsActive = 0,
                             LastName = "Admin",

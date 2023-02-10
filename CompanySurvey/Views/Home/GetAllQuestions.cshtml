@@ -1,4 +1,4 @@
-﻿@model List<Models.Question>
+﻿@model List<QuestionVM>
 @{
     ViewData["Title"] = "All Services";
 }
@@ -7,7 +7,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Manage Quesitions (<small>@Model.FirstOrDefault()?.Survey?.Title</small>)</h1>
+                <h1>Manage Quesitions (<small>@Model.FirstOrDefault()?.SurveyName</small>)</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -32,6 +32,7 @@
                         <table id="managers" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
+                                    <th>Survey</th>
                                     <th>Text</th>
                                     <th>Scale</th>
                                     <th>Option A</th>
@@ -48,6 +49,7 @@
                                     foreach (var item in Model)
                                     {
                                         <tr>
+                                            <td>@item.SurveyName</td>
                                             <td>@item.Text</td>
                                             <td>
                                                 @(item.Limit==1?"1-5":item.Limit==2?"1-7":item.Limit==3?"1-10":"N/A")

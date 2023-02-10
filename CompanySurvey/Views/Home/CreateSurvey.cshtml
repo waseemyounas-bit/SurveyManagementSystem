@@ -94,7 +94,7 @@
         $.ajax({
             type: "POST",
             url: "/Home/LoadCompanyServices",
-            data: { CompanyId: $("#CompanyId").val() },
+            data: { CompanyId: $("#CompanyId").val(),Selected:'@Model.ServiceId' },
             dataType: "json",
             success: function (data) {
                 console.log(data);
@@ -107,7 +107,7 @@
                             selected.id = data[key].value;
                             selected.text = data[key].text;
                         }
-                        $(services_dd).append($(`<option value="${data[key].value}">${data[key].text}</option>`));
+                        $(services_dd).append($(`<option value="${data[key].value}" >${data[key].text}</option>`));
                     }
                 }
                 $(services_dd).val(selected.id).trigger('change.select2');

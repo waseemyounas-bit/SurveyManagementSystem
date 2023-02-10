@@ -76,7 +76,7 @@
                                             <td>@item.CreatedOn.ToShortDateString()</td>
                                             <td>
                                                 <a href="@Url.Action("CreateSurvey","Home",new{Id=item.Id})" class="btn btn-info"><i class="fa fa-edit"></i> </a>
-                                                <a href="javascript:void()" onclick="DeleteService('@item.Id')" class="btn btn-danger"><i class="fa fa-trash"></i> </a>
+                                                <a href="javascript:void()" onclick="DeleteSurvey('@item.Id')" class="btn btn-danger"><i class="fa fa-trash"></i> </a>
                                                 <a href="@Url.Action("CreateCondition","Home",new{SurveyId=item.Id})" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Manage Conditions"><i class="fa fa-cogs"></i></a>
                                                 <a href="@Url.Action("CreateQuestion","Home",new{SurveyId=item.Id})" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Manage Questions"><i class="fa fa-tasks"></i></a>
 
@@ -103,7 +103,7 @@
     $(document).ready(function () {
         LoadCompanyServices();
     });
-    function DeleteService(Id) {
+    function DeleteSurvey(Id) {
         debugger
         swal({
             title: "Are you sure?",
@@ -120,7 +120,7 @@
                 if (isConfirm) {
                     $.ajax({
                         type: "POST",
-                        url: "/Home/RemoveService",
+                        url: "/Home/RemoveSurvey",
                         data: { Id: Id },
                         dataType: "json",
                         success: function (data) {

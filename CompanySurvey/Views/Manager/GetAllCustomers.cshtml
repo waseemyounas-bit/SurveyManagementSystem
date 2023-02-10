@@ -52,7 +52,7 @@
                                             <td>@item.Phone</td>
                                             <td>@item.CreatedOn.ToShortDateString()</td>
                                             <td>
-                                                <a href="@Url.Action("CreateCustomer","Home",new{Id=item.Id})" class="btn btn-info"><i class="fa fa-edit"></i> </a>
+                                                <a href="@Url.Action("CreateCustomer","Manager",new{Id=item.Id})" class="btn btn-info"><i class="fa fa-edit"></i> </a>
                                                 <a href="javascript:void()" onclick="DeleteCustomer('@item.Id')" class="btn btn-danger"><i class="fa fa-trash"></i> </a>
                                                 <a href="@Url.Action("GetAllSurveys",new{CustomerId=item.Id})" class="btn btn-success"><i class="fa fa-tasks"></i> </a>
                                             </td>

@@ -51,7 +51,7 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label for="exampleInputEmail1">Email</label>
-                                    <input type="text" name="Email" class="form-control" value="@Model.Email">
+                                    <input type="text" name="Email" class="form-control" value="@Model.Email" readonly="@(!string.IsNullOrEmpty(Model.Email))">
                                     @Html.ValidationMessageFor(model => model.Email, string.Empty, new { @class = "text-danger" })
                                 </div>
                                 <div class="col-6">
@@ -65,7 +65,7 @@
 
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <button asp-action="GetAllManagers" class="btn btn-warning">Back to list</button>
+                            <button asp-action="GetAllCustomers" class="btn btn-warning">Back to list</button>
                         </div>
                     </form>
                 </div>

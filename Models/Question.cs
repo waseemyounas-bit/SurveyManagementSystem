@@ -33,7 +33,7 @@ namespace Models
         public Guid? SurveyId { get; set; }
         public virtual Survey? Survey { get; set;}
         [NotMapped]
-        public List<SelectListItem> scales { get; set; } =
+        public List<SelectListItem>? scales { get; set; } =
             new List<SelectListItem>() { new SelectListItem() {Value="1", Text="Scale from 1-5" },
                 new SelectListItem() {Value="2", Text="Scale from 1-7" },
                 new SelectListItem() {Value="3", Text="Scale from 1-10" } };

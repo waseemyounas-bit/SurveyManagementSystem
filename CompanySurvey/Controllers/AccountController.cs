@@ -24,7 +24,7 @@ namespace CompanySurvey.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = uOW.UserRepository().GetAll().Where(x => x.Email == login.Email && x.Password == login.Password && x.RoleId == 1).FirstOrDefault();
+                var user = uOW.UserRepository().GetAll().Where(x => x.Email == login.Email && x.Password == login.Password).FirstOrDefault();
                 if (user == null)
                 {
                     ViewBag.error = "Invalid email or password.";

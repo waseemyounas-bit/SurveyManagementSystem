@@ -54,18 +54,19 @@ namespace CompanySurvey.Controllers
         {
             if (ModelState.IsValid)
             {
-                Customer exist = uOW.CustomerRepository().GetAll().Where(x => x.Email == customer.Email).FirstOrDefault();
-                if (exist!=null)
-                {
-                    ViewBag.Error = "Email already exists, please try another one.";
-                    return View(customer);
-                }
+               
                 if (customer.Id != Guid.Empty)
                 {
                     uOW.CustomerRepository().Update(customer);
                 }
                 else
                 {
+                    Customer exist = uOW.CustomerRepository().GetAll().Where(x => x.Email == customer.Email).FirstOrDefault();
+                    if (exist != null)
+                    {
+                        ViewBag.Error = "Email already exists, please try another one.";
+                        return View(customer);
+                    }
                     uOW.CustomerRepository().Insert(customer);
                 }
                 uOW.Save();
@@ -115,6 +116,7 @@ namespace CompanySurvey.Controllers
         {
             HttpContext.Session.SetString("SelectedCustomer",CustomerId.ToString());
             var survey=uOW.SurveyRepository().GetAll().Include(x=>x.Service).Take(12).ToList();
+            ViewData["companies"] = uOW.CompanyRepository().GetAll().Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString() }).ToList();
             return View(survey);
         }
         [HttpPost]
@@ -167,7 +169,8 @@ namespace CompanySurvey.Controllers
                     Answer answer = new Answer() { 
                     QuestionId=item,
                     Value= keyValuePairs.Keys.FirstOrDefault(),
-                    CustomerId=CustomerId
+                    CustomerId=CustomerId,
+                    SurveyId=SurveyId
                     };
                     uOW.AnswerRepository().Insert(answer);
                     count++;

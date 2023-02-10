@@ -232,7 +232,7 @@ namespace CompanySurvey.Controllers
             return Json(-1);
         }
         [HttpPost]
-        public IActionResult LoadCompanyServices(Guid CompanyId)
+        public IActionResult LoadCompanyServices(Guid CompanyId,Guid Selected)
         {
             if (HttpContext.Session.GetInt32("RoleId") == null)
             {
@@ -245,7 +245,7 @@ namespace CompanySurvey.Controllers
             var SelectItemlist = new List<SelectListItem>();
             if (CompanyId != Guid.Empty)
             {
-                SelectItemlist = uOW.ServiceRepository().GetAll().Select(x => new SelectListItem() { Text = x.Name, Value = Convert.ToString(x.Id) }).ToList();
+                SelectItemlist = uOW.ServiceRepository().GetAll().Select(x => new SelectListItem() { Text = x.Name, Value = Convert.ToString(x.Id),Selected=x.Id== Selected}).ToList();
             }
             return Json(SelectItemlist);
         }
@@ -281,12 +281,12 @@ namespace CompanySurvey.Controllers
                     uOW.SurveyRepository().Insert(survey);
                 }
                 uOW.Save();
-                return RedirectToAction("GetAllServices");
+                return RedirectToAction("GetAllSurveys");
             }
             ViewData["companies"] = uOW.CompanyRepository().GetAll().Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString(), Selected = x.Id == survey.CompanyId }).ToList();
             return View(survey);
         }
-        public IActionResult GetAllSurveys()
+        public IActionResult GetAllSurveys(Guid SurveyId)
         {
             if (HttpContext.Session.GetInt32("RoleId") == null)
             {
@@ -297,6 +297,10 @@ namespace CompanySurvey.Controllers
                 return Unauthorized("You are not authorized to access this page.");
             }
             var surveys = uOW.SurveyRepository().GetAll();
+            if (SurveyId!=Guid.Empty)
+            {
+                surveys.Where(x => x.Id == SurveyId);
+            }
             ViewData["companies"] = uOW.CompanyRepository().GetAll().Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString() }).ToList();
             return View(surveys.ToList());
         }
@@ -446,20 +450,42 @@ namespace CompanySurvey.Controllers
             {
                 return Unauthorized("You are not authorized to access this page.");
             }
-            var types = uOW.QuestionRepository().GetAll().Where(x=>x.SurveyId==SurveyId);
-            //if (SurveyId != Guid.Empty)
-            //{
-            //    types = types.Include(x => x.Survey).Where(x => x.SurveyId == SurveyId);
-            //}
-            return View(types.ToList());
+            string SurveyName = uOW.SurveyRepository().GetById(SurveyId)?.Title;
+            var questions = uOW.QuestionRepository().GetAll();
+            if (SurveyId != Guid.Empty)
+            {
+                questions.Where(x => x.SurveyId == SurveyId);
+            }
+            List<QuestionVM> list = 
+                questions.Select(x=> new QuestionVM() { 
+                    CreatedOn= x.CreatedOn,
+                    Id=x.Id,
+                    IsMandatory=x.IsMandatory,
+                    Limit=x.Limit,
+                    OPA =x.OPA,
+                    OPB=x.OPB,
+                    OPC=x.OPC,
+                    OPD=x.OPD,
+                    QuestionTypeId=x.QuestionTypeId,
+                    Text=x.Text,
+                    SurveyId=SurveyId,
+                    SurveyName=SurveyName
+            }).ToList();
+            return View(list);
         }
         public IActionResult RemoveQuestion(Guid Id)
         {
             if (Id != Guid.Empty)
             {
                 var question = uOW.QuestionRepository().GetById(Id);
+                
                 if (question != null)
                 {
+                    var answers = uOW.AnswerRepository().GetAll().Where(x=>x.QuestionId==Id).Select(x=>new Answer() { Id=x.Id}).ToList();
+                    foreach (var item in answers)
+                    {
+                        uOW.AnswerRepository().Delete(item);
+                    }
                     uOW.QuestionRepository().Delete(question);
                     uOW.Save();
                     return Json(1);

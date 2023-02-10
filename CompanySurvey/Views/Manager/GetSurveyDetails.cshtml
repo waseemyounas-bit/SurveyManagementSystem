@@ -36,8 +36,20 @@
                             {
                                 foreach (var item in Model)
                                 {
-                                    <label cklass="">@item.Text</label>
-                                    <input name="QuestionId" type="hidden" value="@item.Id" />
+                                    
+                                    @if (item.QuestionType?.Type.ToString()?.ToLower() == "title or paragraph")
+                                    {
+                                        <div class="row" id="@(item.Id)" data-type="textarea">
+                                            <div class="col-12">
+                                                <label cklass="">@item.Text</label>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <label cklass="">@item.Text</label>
+                                        <input name="QuestionId" type="hidden" value="@item.Id" />
+                                    }
                                     @if (item.QuestionType?.Type.ToString()?.ToLower() == "open questions with multiple choice")
                                     {
                                         <div class="row" id="@(item.Id)" data-type="checkbox">
@@ -132,15 +144,6 @@
 
                                         </div>
                                     }
-                                    @if (item.QuestionType?.Type.ToString()?.ToLower() == "title or paragraph")
-                                    {
-                                        <div class="row" id="@(item.Id)" data-type="textarea">
-                                            <div class="col-12">
-                                                <textarea class="form-control" onchange="GetConditions('@item.Id')" name="Answer"></textarea>
-                                            </div>
-                                        </div>
-                                    }
-
                                 }
                             }
                             <br />

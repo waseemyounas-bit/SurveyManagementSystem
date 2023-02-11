@@ -46,7 +46,8 @@ namespace CompanySurvey.Controllers
             {
                 customer = uOW.CustomerRepository().GetById(Id);
             }
-            ViewData["companies"] = uOW.CompanyRepository().GetAll().Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString() }).ToList();
+            //ViewData["companies"] = uOW.CompanyRepository().GetAll().Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString() }).ToList();
+            ViewData["surveys"] = uOW.SurveyRepository().GetAll().Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString(),Selected=x.Id==customer.SurveyId }).ToList();
             return View(customer);
         }
         [HttpPost]
@@ -72,7 +73,7 @@ namespace CompanySurvey.Controllers
                 uOW.Save();
                 return RedirectToAction("GetAllCustomers");
             }
-            ViewData["companies"] = uOW.CompanyRepository().GetAll().Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString()}).ToList();
+            ViewData["surveys"] = uOW.SurveyRepository().GetAll().Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString(), Selected = x.Id == customer.SurveyId }).ToList();
             return View(customer);
         }
         public IActionResult GetAllCustomers()
@@ -130,8 +131,9 @@ namespace CompanySurvey.Controllers
             ViewData["companies"] = uOW.CompanyRepository().GetAll().Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString() }).ToList();
             return View("GetAllSurveys", surveys);
         }
-        public IActionResult GetSurveyDetails(Guid SurveyId)
+        public IActionResult GetSurveyDetails(Guid CustomerId,Guid SurveyId)
         {
+            HttpContext.Session.SetString("SelectedCustomer",CustomerId.ToString());
             var questions = uOW.QuestionRepository().GetAll().Include(x => x.Survey)
                 .Where(x => x.SurveyId == SurveyId)
                 .Select(x => new Question() {
@@ -183,7 +185,7 @@ namespace CompanySurvey.Controllers
                 uOW.CustomerRepository().Update(cutomer);
             }
             uOW.Save();
-            return RedirectToAction("GetAllSurveys", new {CustomerId=CustomerId});
+            return RedirectToAction("GetAllCustomers", new {CustomerId=CustomerId});
         }
         public Dictionary<string,int> GetAnswers(string QId, string[] Answers,int count)
         {

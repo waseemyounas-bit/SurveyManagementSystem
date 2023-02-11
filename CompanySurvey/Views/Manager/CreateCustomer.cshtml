@@ -32,10 +32,10 @@
                     <!-- form start -->
                     <form action="@Url.Action("CreateCustomer")" method="post">
                         <div class="card-body">
-                            @if (ViewBag.Error!=null)
+                            @*@if (ViewBag.Error!=null)
                             {
                                 <p class="alert alert-danger">@ViewBag.Error</p>
-                            }
+                            }*@
                             <div class="row">
                                 <div class="col-6">
                                     <label for="exampleInputEmail1">First Name</label>
@@ -58,6 +58,14 @@
                                     <label for="exampleInputEmail1">Phone</label>
                                     <input type="text" name="Phone" class="form-control" value="@Model.Phone">
                                     @Html.ValidationMessageFor(model => model.Phone, string.Empty, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="exampleInputEmail1">Survey</label>
+                                    <select class="form-control" name="SurveyId" id="type" asp-for=SurveyId asp-items="@ViewData["surveys"] as List<SelectListItem>">
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.SurveyId, string.Empty, new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>

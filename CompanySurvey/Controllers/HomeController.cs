@@ -407,7 +407,9 @@ namespace CompanySurvey.Controllers
             Question question = new Question();
             if (Id != Guid.Empty)
             {
-                question = uOW.QuestionRepository().GetById(Id);
+                question = uOW.QuestionRepository().GetAll().Where(x=>x.Id==Id)
+                    .Select(x=>new Question() 
+                    { Id=x.Id,Limit=x.Limit,CreatedOn=x.CreatedOn,OPA=x.OPA,OPB=x.OPB,OPC=x.OPC,OPD=x.OPD,Text=x.Text,QuestionTypeId=x.QuestionTypeId,SurveyId=x.SurveyId}).FirstOrDefault();
                 SurveyId = question.SurveyId ?? Guid.Empty;
             }
             if (SurveyId != Guid.Empty)

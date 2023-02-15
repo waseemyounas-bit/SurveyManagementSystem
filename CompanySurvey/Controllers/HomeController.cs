@@ -568,7 +568,7 @@ namespace CompanySurvey.Controllers
                         QuestionIds = item.QuestionIds,
                         Value=item.Value,
                         ShowHideQuestionsText = string.Join(",", selectedQuestions),
-                        
+                        ConditionId=item.Id
                     };
                 conditionsVMs.Add(conditionsVM);
                 }

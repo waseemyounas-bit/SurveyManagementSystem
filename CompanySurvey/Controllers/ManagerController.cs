@@ -8,10 +8,10 @@ namespace CompanySurvey.Controllers
 {
     public class ManagerController : Controller
     {
-    private readonly IUOW uOW;
+        private readonly IUOW uOW;
         public ManagerController(IUOW uOW)
         {
-                this.uOW = uOW;
+            this.uOW = uOW;
         }
         public IActionResult Index()
         {
@@ -47,7 +47,7 @@ namespace CompanySurvey.Controllers
                 customer = uOW.CustomerRepository().GetById(Id);
             }
             //ViewData["companies"] = uOW.CompanyRepository().GetAll().Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString() }).ToList();
-            ViewData["surveys"] = uOW.SurveyRepository().GetAll().Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString(),Selected=x.Id==customer.SurveyId }).ToList();
+            ViewData["surveys"] = uOW.SurveyRepository().GetAll().Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString(), Selected = x.Id == customer.SurveyId }).ToList();
             return View(customer);
         }
         [HttpPost]
@@ -55,7 +55,7 @@ namespace CompanySurvey.Controllers
         {
             if (ModelState.IsValid)
             {
-               
+
                 if (customer.Id != Guid.Empty)
                 {
                     uOW.CustomerRepository().Update(customer);
@@ -115,8 +115,8 @@ namespace CompanySurvey.Controllers
         }
         public IActionResult GetAllSurveys(Guid CustomerId)
         {
-            HttpContext.Session.SetString("SelectedCustomer",CustomerId.ToString());
-            var survey=uOW.SurveyRepository().GetAll().Include(x=>x.Service).Take(12).ToList();
+            HttpContext.Session.SetString("SelectedCustomer", CustomerId.ToString());
+            var survey = uOW.SurveyRepository().GetAll().Include(x => x.Service).Take(12).ToList();
             ViewData["companies"] = uOW.CompanyRepository().GetAll().Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString() }).ToList();
             return View(survey);
         }
@@ -131,48 +131,50 @@ namespace CompanySurvey.Controllers
             ViewData["companies"] = uOW.CompanyRepository().GetAll().Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString() }).ToList();
             return View("GetAllSurveys", surveys);
         }
-        public IActionResult GetSurveyDetails(Guid CustomerId,Guid SurveyId)
+        public IActionResult GetSurveyDetails(Guid CustomerId, Guid SurveyId)
         {
-            HttpContext.Session.SetString("SelectedCustomer",CustomerId.ToString());
+            HttpContext.Session.SetString("SelectedCustomer", CustomerId.ToString());
             var questions = uOW.QuestionRepository().GetAll().Include(x => x.Survey)
                 .Where(x => x.SurveyId == SurveyId)
-                .Select(x => new Question() {
-                Id= x.Id,
-                OPA= x.OPA,
-                OPB= x.OPB,
-                OPC= x.OPC,
-                OPD= x.OPD,
-                CreatedOn= x.CreatedOn,
-                Limit= x.Limit,
-                QuestionType= x.QuestionType,
-                    Survey=x.Survey,
-                    QuestionTypeId= x.QuestionTypeId,
-                Text= x.Text,
-                SurveyId= SurveyId,
-                IsMandatory= x.IsMandatory,
-                ServiceName= x.Survey.Service.Name,
-                CompanyName=x.Survey.Service.Company.Title
+                .Select(x => new Question()
+                {
+                    Id = x.Id,
+                    OPA = x.OPA,
+                    OPB = x.OPB,
+                    OPC = x.OPC,
+                    OPD = x.OPD,
+                    CreatedOn = x.CreatedOn,
+                    Limit = x.Limit,
+                    QuestionType = x.QuestionType,
+                    Survey = x.Survey,
+                    QuestionTypeId = x.QuestionTypeId,
+                    Text = x.Text,
+                    SurveyId = SurveyId,
+                    IsMandatory = x.IsMandatory,
+                    ServiceName = x.Survey.Service.Name,
+                    CompanyName = x.Survey.Service.Company.Title
                 });
             return View(questions.ToList());
         }
         [HttpPost]
-        public IActionResult SaveAnswers(Guid[] QuestionId, string[] Answer,Guid SurveyId)
+        public IActionResult SaveAnswers(Guid[] QuestionId, string[] Answer, Guid SurveyId)
         {
             Guid CustomerId = new Guid(HttpContext.Session.GetString("SelectedCustomer"));
             int ansLength = Answer.Where(x => x != null).Count();
-            if (QuestionId.Length>1 && ansLength>1)
+            if (QuestionId.Length > 1 && ansLength > 1)
             {
                 int count = 0;
                 foreach (var item in QuestionId)
                 {
-                    
-                    Dictionary<string,int> keyValuePairs= GetAnswers(item.ToString(), Answer, count);
+
+                    Dictionary<string, int> keyValuePairs = GetAnswers(item.ToString(), Answer, count);
                     count = count + keyValuePairs.Values.FirstOrDefault();
-                    Answer answer = new Answer() { 
-                    QuestionId=item,
-                    Value= keyValuePairs.Keys.FirstOrDefault(),
-                    CustomerId=CustomerId,
-                    SurveyId=SurveyId
+                    Answer answer = new Answer()
+                    {
+                        QuestionId = item,
+                        Value = keyValuePairs.Keys.FirstOrDefault(),
+                        CustomerId = CustomerId,
+                        SurveyId = SurveyId
                     };
                     uOW.AnswerRepository().Insert(answer);
                     count++;
@@ -185,19 +187,28 @@ namespace CompanySurvey.Controllers
                 uOW.CustomerRepository().Update(cutomer);
             }
             uOW.Save();
-            return RedirectToAction("GetAllCustomers", new {CustomerId=CustomerId});
+            return RedirectToAction("GetAllCustomers", new { CustomerId = CustomerId });
         }
-        public Dictionary<string,int> GetAnswers(string QId, string[] Answers,int count)
+        public Dictionary<string, int> GetAnswers(string QId, string[] Answers, int count)
         {
             Dictionary<string, int> result = new Dictionary<string, int>();
-            string[] checkboxes=Answers.Where(x=>x.EndsWith("-"+QId)).Select(x=>x.Replace("-"+QId,"")).ToArray();
-            if (checkboxes.Length>1)
+            string[] checkboxes = Answers.Where(x => x.EndsWith("-" + QId)).Select(x => x.Replace("-" + QId, "")).ToArray();
+            if (checkboxes.Length > 1)
             {
-                result.Add(string.Join(", ", checkboxes),checkboxes.Length-1);
+                result.Add(string.Join(", ", checkboxes), checkboxes.Length - 1);
             }
             else
             {
-                result.Add(Answers[count].ToString(),0);
+                if (checkboxes.Length == 1)
+                {
+                    result.Add(Answers[count].ToString().Replace("-" + QId, ""), 0);
+
+                }
+                else
+                {
+
+                    result.Add(Answers[count].ToString(), 0);
+                }
             }
             return result;
         }
